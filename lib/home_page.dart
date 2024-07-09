@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calculator/calculator_controller.dart';
+import 'package:flutter_calculator/colors.dart';
 import 'package:flutter_calculator/custom_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,20 +13,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   CalculatorController controller = CalculatorController();
+  ThemeColors colors = ThemeColors();
+
+  @override
+  void initState() {
+    colors.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      backgroundColor: Colors.white38,
+      backgroundColor: colors.background,
       body: Column(
         children: <Widget>[
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 AnimatedBuilder(
                   animation: controller.input,
@@ -34,9 +38,9 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       controller.input.value,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: colors.textColor,
                       ),
                     ),
                   ),
@@ -48,9 +52,9 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       controller.answer.value,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 30,
-                        color: Colors.white,
+                        color: colors.textColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -60,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 2,
             child: GridView.builder(
               itemCount: controller.labels.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -73,24 +77,26 @@ class _HomePageState extends State<HomePage> {
 
                 if (isFunction) {
                   return CustomButton(
-                    color: Colors.indigo.shade400,
-                    textColor: Colors.white,
+                    color: colors.functionButtonColor,
+                    textColor: colors.buttonTextColor,
                     buttonText: controller.labels[index],
                     buttonTapped: () =>
                         controller.functionButtons(controller.labels[index]),
                   );
                 } else if (controller.labels[index] == '=') {
                   return CustomButton(
-                    color: Colors.amberAccent.shade200,
-                    textColor: Colors.white,
+                    color: colors.equalButtonColor,
+                    textColor: colors.buttonTextColor,
                     buttonText: controller.labels[index],
                     buttonTapped: () => controller.equalPressed(),
                   );
                 }
 
                 return CustomButton(
-                  color: isOperator ? Colors.indigo.shade200 : Colors.indigo,
-                  textColor: Colors.white,
+                  color: isOperator
+                      ? colors.operatorButtonColor
+                      : colors.numberButtonColor,
+                  textColor: colors.buttonTextColor,
                   buttonText: controller.labels[index],
                   buttonTapped: () =>
                       controller.input.value += controller.labels[index],

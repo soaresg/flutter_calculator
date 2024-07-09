@@ -22,7 +22,10 @@ class CustomButton extends StatelessWidget {
         padding: const EdgeInsets.all(.2),
         child: ClipRRect(
           child: Container(
-            color: color,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(100)),
+              color: color,
+            ),
             child: Center(
               child: Text(
                 buttonText,
