@@ -4,13 +4,15 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.color,
+    required this.isNumber,
     required this.textColor,
     required this.buttonText,
     required this.buttonTapped,
   });
 
-  final Color? color;
-  final Color? textColor;
+  final Color color;
+  final bool isNumber;
+  final Color textColor;
   final String buttonText;
   final Function()? buttonTapped;
 
@@ -24,6 +26,10 @@ class CustomButton extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(100)),
+              border: Border.all(
+                  color: isNumber
+                      ? textColor.withOpacity(0.2)
+                      : Colors.transparent),
               color: color,
             ),
             child: Center(

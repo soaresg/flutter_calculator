@@ -18,15 +18,13 @@ class ThemeColors {
     background = isDarkTheme ? Colors.white12 : Colors.white;
     textColor = isDarkTheme ? Colors.white : Colors.black87;
     buttonTextColor = isDarkTheme ? Colors.white : Colors.black87;
-    numberButtonColor = isDarkTheme
-        ? const Color.fromRGBO(250, 230, 250, 1)
-        : const Color.fromRGBO(250, 230, 250, 1);
+    numberButtonColor = Colors.transparent;
     operatorButtonColor = isDarkTheme
-        ? const Color.fromRGBO(255, 212, 250, 1)
-        : const Color.fromRGBO(255, 212, 250, 1);
+        ? Colors.white.withOpacity(0.1)
+        : Colors.black.withOpacity(0.1);
     functionButtonColor = isDarkTheme
-        ? const Color.fromRGBO(204, 204, 255, 1)
-        : const Color.fromRGBO(204, 204, 255, 1);
-    equalButtonColor = Colors.purple;
+        ? Colors.white.withOpacity(0.1)
+        : Colors.black.withOpacity(0.1);
+    equalButtonColor = Colors.purple.withOpacity(isDarkTheme ? 0.5 : 0.1);
   }
 }

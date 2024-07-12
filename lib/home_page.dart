@@ -25,86 +25,92 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colors.background,
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                AnimatedBuilder(
-                  animation: controller.input,
-                  builder: (_, __) => Container(
-                    padding: const EdgeInsets.all(20),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      controller.input.value,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: colors.textColor,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  AnimatedBuilder(
+                    animation: controller.input,
+                    builder: (_, __) => Container(
+                      padding: const EdgeInsets.all(20),
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        controller.input.value,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: colors.textColor,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                AnimatedBuilder(
-                  animation: controller.answer,
-                  builder: (_, __) => Container(
-                    padding: const EdgeInsets.all(15),
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      controller.answer.value,
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: colors.textColor,
-                        fontWeight: FontWeight.bold,
+                  AnimatedBuilder(
+                    animation: controller.answer,
+                    builder: (_, __) => Container(
+                      padding: const EdgeInsets.all(15),
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        controller.answer.value,
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: colors.textColor,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: GridView.builder(
-              itemCount: controller.labels.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4),
-              itemBuilder: (BuildContext context, int index) {
-                bool isOperator =
-                    controller.isOperator(controller.labels[index]);
-                bool isFunction =
-                    controller.isFunction(controller.labels[index]);
+            Expanded(
+              flex: 2,
+              child: GridView.builder(
+                itemCount: controller.labels.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4),
+                itemBuilder: (BuildContext context, int index) {
+                  bool isOperator =
+                      controller.isOperator(controller.labels[index]);
+                  bool isFunction =
+                      controller.isFunction(controller.labels[index]);
 
-                if (isFunction) {
+                  if (isFunction) {
+                    return CustomButton(
+                      color: colors.functionButtonColor,
+                      isNumber: false,
+                      textColor: colors.buttonTextColor,
+                      buttonText: controller.labels[index],
+                      buttonTapped: () =>
+                          controller.functionButtons(controller.labels[index]),
+                    );
+                  } else if (controller.labels[index] == '=') {
+                    return CustomButton(
+                      color: colors.equalButtonColor,
+                      isNumber: false,
+                      textColor: colors.buttonTextColor,
+                      buttonText: controller.labels[index],
+                      buttonTapped: () => controller.equalPressed(),
+                    );
+                  }
+
                   return CustomButton(
-                    color: colors.functionButtonColor,
+                    color: isOperator
+                        ? colors.operatorButtonColor
+                        : colors.numberButtonColor,
+                    isNumber: !isOperator,
                     textColor: colors.buttonTextColor,
                     buttonText: controller.labels[index],
                     buttonTapped: () =>
-                        controller.functionButtons(controller.labels[index]),
+                        controller.input.value += controller.labels[index],
                   );
-                } else if (controller.labels[index] == '=') {
-                  return CustomButton(
-                    color: colors.equalButtonColor,
-                    textColor: colors.buttonTextColor,
-                    buttonText: controller.labels[index],
-                    buttonTapped: () => controller.equalPressed(),
-                  );
-                }
-
-                return CustomButton(
-                  color: isOperator
-                      ? colors.operatorButtonColor
-                      : colors.numberButtonColor,
-                  textColor: colors.buttonTextColor,
-                  buttonText: controller.labels[index],
-                  buttonTapped: () =>
-                      controller.input.value += controller.labels[index],
-                );
-              },
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
