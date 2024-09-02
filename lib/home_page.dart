@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_calculator/calculator_controller.dart';
 import 'package:flutter_calculator/colors.dart';
 import 'package:flutter_calculator/custom_button.dart';
@@ -12,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _theme = '';
+  static const events = EventChannel('calculator/channel');
+
   CalculatorController controller = CalculatorController();
   ThemeColors colors = ThemeColors();
 
@@ -19,6 +23,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     colors.init();
     super.initState();
+    events.receiveBroadcastStream().listen(_onEvent);
+  }
+
+  void _onEvent(Object? event) {
+    setState(() {
+      _theme = event == true ? 'dark' : 'light';
+      debugPrint('Theme: $_theme');
+    });
   }
 
   @override
