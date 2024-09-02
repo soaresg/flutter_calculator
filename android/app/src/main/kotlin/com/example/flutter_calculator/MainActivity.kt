@@ -32,7 +32,6 @@ class MainActivity: FlutterActivity() {
             }
 
             override fun onCancel(arguments: Any?) {
-                TODO("Not yet implemented")
             }
 
         });
